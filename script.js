@@ -15,3 +15,27 @@ filterButtons.forEach(button=>button.addEventListener('click',()=>{
  filterButtons.forEach(other=>{other.classList.toggle('selected',other===button);other.setAttribute('aria-pressed',String(other===button));});
  projects.forEach(project=>project.hidden=category!=='All'&&project.dataset.category!==category);
 }));
+
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+function prepareMessage() {
+ if (!contactForm.reportValidity()) return null;
+ const values = new FormData(contactForm);
+ const name=String(values.get('name')).trim();
+ const email=String(values.get('email')).trim();
+ const subject=String(values.get('subject')).trim();
+ const message=String(values.get('message')).trim();
+ if(!name || !subject || message.length<10){formStatus.textContent='Please enter your name, a subject and a message of at least 10 characters.';return null;}
+ return {subject,body:`Name: ${name}\nEmail: ${email}\n\n${message}`};
+}
+contactForm.addEventListener('submit',event=>{
+ event.preventDefault();const draft=prepareMessage();if(!draft)return;
+ const href='mailto:rahidul817@gmail.com?subject='+encodeURIComponent(draft.subject)+'&body='+encodeURIComponent(draft.body);
+ window.location.href=href;
+ formStatus.textContent='Your email app should open with a draft. Review it and press Send there. If it does not open, use Copy message and email rahidul817@gmail.com.';
+});
+document.getElementById('copy-message').addEventListener('click',async()=>{
+ const draft=prepareMessage();if(!draft)return;
+ try{await navigator.clipboard.writeText('Subject: '+draft.subject+'\n\n'+draft.body);formStatus.textContent='Message copied. Paste it into an email to rahidul817@gmail.com.';}
+ catch{formStatus.textContent='Clipboard access is unavailable. Please select and copy your message, then email rahidul817@gmail.com.';}
+});
