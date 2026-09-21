@@ -1,0 +1,15 @@
+PORTFOLIO — IMAGE GALLERY EDITION
+
+Open index.html to preview the website locally.
+
+PUBLISH TO GITHUB
+1. Extract the ZIP.
+2. Open https://github.com/rahidul817/Portfolio
+3. Choose Add file > Upload files.
+4. Upload ALL the extracted website files, including all eight project-*.png images, into the repository root. Do not upload the ZIP itself or put the files inside another folder.
+5. Commit changes. GitHub Pages is already configured for main / root.
+6. After deployment, open https://rahidul817.github.io/Portfolio/ and refresh.
+
+Contact form opens an email draft; it does not send automatically. The visitor must press Send in their email app.
+
+Project cover images are AI-generated conceptual illustrations, not actual application screenshots. Built-in image generation was used.
