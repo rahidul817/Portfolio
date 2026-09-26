@@ -23,9 +23,10 @@ function prepareMessage() {
  const values = new FormData(contactForm);
  const name=String(values.get('name')).trim();
  const email=String(values.get('email')).trim();
- const subject=String(values.get('subject')).trim();
+ const topic=String(values.get('topic') || 'Question');
+ const subject=topic+' — Portfolio enquiry from '+name;
  const message=String(values.get('message')).trim();
- if(!name || !subject || message.length<10){formStatus.textContent='Please enter your name, a subject and a message of at least 10 characters.';return null;}
+ if(!name || message.length<5){formStatus.textContent='Please add your name and a short message (at least 5 characters).';return null;}
  return {subject,body:`Name: ${name}\nEmail: ${email}\n\n${message}`};
 }
 contactForm.addEventListener('submit',event=>{
@@ -39,3 +40,17 @@ document.getElementById('copy-message').addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText('Subject: '+draft.subject+'\n\n'+draft.body);formStatus.textContent='Message copied. Paste it into an email to rahidul817@gmail.com.';}
  catch{formStatus.textContent='Clipboard access is unavailable. Please select and copy your message, then email rahidul817@gmail.com.';}
 });
+
+document.getElementById('gmail-message').addEventListener('click',()=>{const draft=prepareMessage();if(!draft)return;const url='https://mail.google.com/mail/?view=cm&fs=1&to=rahidul817%40gmail.com&su='+encodeURIComponent(draft.subject)+'&body='+encodeURIComponent(draft.body);window.open(url,'_blank','noopener,noreferrer');formStatus.textContent='Gmail will open with your message. Review it and press Send. If no tab opens, use Copy message.';});
+
+// Keep the preview local; no draft is saved or sent by this website.
+const messageInput = document.getElementById('contact-message');
+function updateContactPreview() {
+ const values = new FormData(contactForm);
+ document.getElementById('message-count').textContent = messageInput.value.length.toLocaleString() + ' / 3,000';
+ document.getElementById('preview-subject').textContent = String(values.get('topic') || 'Question') + ' — Portfolio enquiry from ' + (String(values.get('name') || '').trim() || 'Your name');
+ document.getElementById('preview-body').textContent = 'Name: ' + (values.get('name') || 'Your name') + '\nEmail: ' + (values.get('email') || 'Your email') + '\n\n' + (values.get('message') || 'Your message will appear here as you type.');
+}
+contactForm.addEventListener('input', () => { formStatus.textContent = ''; updateContactPreview(); });
+contactForm.addEventListener('change', updateContactPreview);
+updateContactPreview();

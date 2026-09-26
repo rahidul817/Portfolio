@@ -1,4 +1,4 @@
-PORTFOLIO — IMAGE GALLERY EDITION
+PORTFOLIO — ADVANCED CONTACT EDITION
 
 Open index.html to preview the website locally.
 
@@ -13,3 +13,4 @@ PUBLISH TO GITHUB
 Contact form opens an email draft; it does not send automatically. The visitor must press Send in their email app.
 
 Project cover images are AI-generated conceptual illustrations, not actual application screenshots. Built-in image generation was used.
+
